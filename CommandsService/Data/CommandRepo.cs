@@ -9,7 +9,7 @@ namespace CommandsService.Data
 
         public CommandRepo(AppDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task CreateCommandAsync(int platformId, Command command)
@@ -31,6 +31,11 @@ namespace CommandsService.Data
                 throw new ArgumentNullException(nameof(plat));
             }
             await _context.Platforms.AddAsync(plat);
+        }
+
+        public async Task<bool> ExternalPlatformExistsAsync(int externalPlatformId)
+        {
+            return await _context.Platforms.AnyAsync(p => p.ExternalId == externalPlatformId);
         }
 
         public async Task<IEnumerable<Platform>> GetAllPlatformsAsync()

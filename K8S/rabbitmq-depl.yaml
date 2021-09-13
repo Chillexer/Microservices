@@ -15,10 +15,6 @@ spec:
       containers:
         - name: rabbitmq
           image: rabbitmq:3-management
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "125m"
           ports:
             - containerPort: 15672
               name: rbmq-mgmt-port
@@ -52,11 +48,11 @@ spec:
   selector:
     app: rabbitmq
   ports:
-    - protocol: TCP
-      name: rbmq-mgmt-port
+    - name: rbmq-mgmt-port
+      protocol: TCP
       port: 15672
       targetPort: 15672
-    - protocol: TCP
-      name: rbmq-msg-port
+    - name: rbmq-msg-port
+      protocol: TCP
       port: 5672
       targetPort: 5672

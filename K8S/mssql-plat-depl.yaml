@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mssql-deply
+  name: mssql-depl
 spec:
   selector:
     matchLabels:
