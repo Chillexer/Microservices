@@ -1,6 +1,7 @@
 using CommandsService.AsyncDataServices;
 using CommandsService.Data;
 using CommandsService.EventProcessing;
+using CommandsService.SyncDataServices.Grpc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandsService
@@ -19,6 +20,7 @@ namespace CommandsService
                 opt.UseInMemoryDatabase("InMem")
             );
             services.AddScoped<ICommandRepo, CommandRepo>();
+            services.AddScoped<IPlatformDataClient, PlatformDataClient>();
             services.AddControllers();
             services.AddHostedService<MessageBusSubscriber>();
             services.AddSingleton<IEventProcessor, EventProcessor>();
@@ -46,6 +48,8 @@ namespace CommandsService
             {
                 endpoints.MapControllers();
             });
+
+            PrepDb.PrepPopulation(app);
         }
     }
 }
