@@ -1,8 +1,8 @@
-using System.Text.Json;
 using AutoMapper;
 using CommandsService.Data;
 using CommandsService.Dtos;
 using CommandsService.Models;
+using System.Text.Json;
 
 namespace CommandsService.EventProcessing
 {
@@ -20,7 +20,7 @@ namespace CommandsService.EventProcessing
         {
             var eventType = DetermineEvent(message);
 
-            switch(eventType)
+            switch (eventType)
             {
                 case EventType.PlatformPublished:
                     await AddPlatform(message);
@@ -36,12 +36,13 @@ namespace CommandsService.EventProcessing
 
             var eventType = JsonSerializer.Deserialize<GenericEventDto>(notificationMessage);
 
-            if(eventType == null){
+            if (eventType == null)
+            {
                 Console.WriteLine("--> Could not determine the event type");
                 return EventType.Undertermined;
             }
 
-            switch(eventType.Event)
+            switch (eventType.Event)
             {
                 case "Platform_Published":
                     Console.WriteLine("--> Platform Published Event Detected");
@@ -63,16 +64,16 @@ namespace CommandsService.EventProcessing
                 try
                 {
                     var plat = _mapper.Map<Platform>(plaformPublishedDto);
-                    if(!await repo.ExternalPlatformExistsAsync(plat.ExternalId))
+                    if (!await repo.ExternalPlatformExistsAsync(plat.ExternalId))
                     {
                         await repo.CreatePlatformAsync(plat);
                         await repo.SaveChangesAsync();
                         Console.WriteLine("--> Platform added!");
-                    } 
+                    }
                     else
                     {
                         Console.WriteLine("--> Platform already exists...");
-                    }  
+                    }
                 }
                 catch (Exception ex)
                 {

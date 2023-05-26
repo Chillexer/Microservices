@@ -21,10 +21,10 @@ namespace PlatformService.SyncDataServices.Grpc
             var response = new PlatformResponse();
             var platforms = await _repository.GetAllPlatformsAsync();
 
-            foreach(var plat in platforms)
+            foreach (var plat in platforms)
             {
                 response.Platforms.Add(_mapper.Map<GrpcPlatformModel>(plat));
-            }    
+            }
 
             return response;
         }

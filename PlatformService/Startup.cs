@@ -6,7 +6,8 @@ using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService
 {
-    public class Startup{
+    public class Startup
+    {
         public IConfiguration Configuration { get; }
         private readonly IWebHostEnvironment _env;
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
@@ -17,7 +18,8 @@ namespace PlatformService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            if(_env.IsProduction()){
+            if (_env.IsProduction())
+            {
                 Console.WriteLine("--> Using SQLServer Db");
                 services.AddDbContext<AppDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("PlatformsConn")));
@@ -25,11 +27,11 @@ namespace PlatformService
             else
             {
                 Console.WriteLine("--> Using InMem Db");
-                services.AddDbContext<AppDbContext>(opt => 
+                services.AddDbContext<AppDbContext>(opt =>
                 opt.UseInMemoryDatabase("InMem")
                 );
             }
-            
+
             services.AddScoped<IPlatformRepo, PlatformRepo>();
 
             services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
@@ -63,7 +65,7 @@ namespace PlatformService
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<GrpcPlatformService>();
 
-                endpoints.MapGet("/protos/platforms.proto", async context => 
+                endpoints.MapGet("/protos/platforms.proto", async context =>
                 {
                     await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
                 });

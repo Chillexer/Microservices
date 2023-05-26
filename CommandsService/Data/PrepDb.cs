@@ -11,14 +11,14 @@ namespace CommandsService.Data
             {
                 var grpcClient = serviceScope.ServiceProvider.GetService<IPlatformDataClient>();
 
-                if(grpcClient == null)
+                if (grpcClient == null)
                     throw new ArgumentNullException(nameof(grpcClient));
 
                 var platforms = await grpcClient.ReturnAllPlatformsAsync();
 
                 var repo = serviceScope.ServiceProvider.GetService<ICommandRepo>();
 
-                if(repo == null)
+                if (repo == null)
                     throw new ArgumentNullException(nameof(repo));
 
                 await SeedData(repo, platforms);
@@ -29,9 +29,9 @@ namespace CommandsService.Data
         {
             Console.WriteLine("--> Seeding new platforms....");
 
-            foreach(var plat in platforms)
+            foreach (var plat in platforms)
             {
-                if(!await repo.ExternalPlatformExistsAsync(plat.ExternalId))
+                if (!await repo.ExternalPlatformExistsAsync(plat.ExternalId))
                 {
                     await repo.CreatePlatformAsync(plat);
                 }

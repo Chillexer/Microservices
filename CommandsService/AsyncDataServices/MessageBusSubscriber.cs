@@ -1,7 +1,7 @@
-using System.Text;
 using CommandsService.EventProcessing;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace CommandsService.AsyncDataServices
 {
@@ -23,7 +23,8 @@ namespace CommandsService.AsyncDataServices
 
         private void InitializeRabbitMQ()
         {
-            var factory = new ConnectionFactory() {
+            var factory = new ConnectionFactory()
+            {
                 HostName = _configuration["RabbitMQHost"],
                 Port = int.Parse(_configuration["RabbitMQPort"])
             };
@@ -67,10 +68,11 @@ namespace CommandsService.AsyncDataServices
 
         public override void Dispose()
         {
-            if(_channel != null && _channel.IsOpen){
+            if (_channel != null && _channel.IsOpen)
+            {
                 _channel.Close();
-                if(_connection != null)
-                _connection.Close();
+                if (_connection != null)
+                    _connection.Close();
             }
 
             base.Dispose();

@@ -14,10 +14,12 @@ namespace CommandsService.Data
 
         public async Task CreateCommandAsync(int platformId, Command command)
         {
-            if(command == null){
+            if (command == null)
+            {
                 throw new ArgumentNullException(nameof(command));
             }
-            if(!await PlatformExistsAsync(platformId)){
+            if (!await PlatformExistsAsync(platformId))
+            {
                 throw new ArgumentException(nameof(platformId));
             }
 
@@ -27,7 +29,8 @@ namespace CommandsService.Data
 
         public async Task CreatePlatformAsync(Platform plat)
         {
-            if(plat == null){
+            if (plat == null)
+            {
                 throw new ArgumentNullException(nameof(plat));
             }
             await _context.Platforms.AddAsync(plat);

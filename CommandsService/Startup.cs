@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandsService
 {
-    public class Startup{
+    public class Startup
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -16,7 +17,7 @@ namespace CommandsService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(opt => 
+            services.AddDbContext<AppDbContext>(opt =>
                 opt.UseInMemoryDatabase("InMem")
             );
             services.AddScoped<ICommandRepo, CommandRepo>();

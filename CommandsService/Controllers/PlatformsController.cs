@@ -7,7 +7,7 @@ namespace CommandsService.Controllers
 {
     [Route("api/c/platforms")]
     [ApiController]
-    public class PlatformsController: ControllerBase
+    public class PlatformsController : ControllerBase
     {
         private readonly ICommandRepo _repository;
         public IMapper _mapper { get; }
@@ -31,7 +31,8 @@ namespace CommandsService.Controllers
 
 
         [HttpPost]
-        public ActionResult TestInboundConnection(){
+        public ActionResult TestInboundConnection()
+        {
             Console.WriteLine("--> Inbound POST # Command Service");
 
             return Ok("Inbound test from Platforms Controller");

@@ -1,6 +1,6 @@
+using PlatformService.Dtos;
 using System.Text;
 using System.Text.Json;
-using PlatformService.Dtos;
 
 namespace PlatformService.SyncDataServices.Http
 {
@@ -27,11 +27,11 @@ namespace PlatformService.SyncDataServices.Http
 
             var response = await _httpClient.PostAsync($"{baseUrl}/api/c/platforms", httpContent);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("--> Sync POST to CommandService was OK!");
             }
-            else 
+            else
             {
                 Console.WriteLine("--> Sync POST to CommandService was NOT OK!");
             }

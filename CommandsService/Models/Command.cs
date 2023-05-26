@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CommandsService.Models
 {
-    public class Command{
+    public class Command
+    {
 
         [Key]
         [Required]

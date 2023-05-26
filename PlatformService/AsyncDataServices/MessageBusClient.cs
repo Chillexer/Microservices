@@ -1,7 +1,7 @@
-using System.Text;
-using System.Text.Json;
 using PlatformService.Dtos;
 using RabbitMQ.Client;
+using System.Text;
+using System.Text.Json;
 
 namespace PlatformService.AsyncDataServices
 {
@@ -14,22 +14,22 @@ namespace PlatformService.AsyncDataServices
         public MessageBusClient(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            var factory = new ConnectionFactory() 
-            { 
-                HostName = _configuration["RabbitMQHost"], 
+            var factory = new ConnectionFactory()
+            {
+                HostName = _configuration["RabbitMQHost"],
                 Port = int.Parse(_configuration["RabbitMQPort"])
             };
 
             try
             {
-                 _connection = factory.CreateConnection();
-                 _channel = _connection.CreateModel();
+                _connection = factory.CreateConnection();
+                _channel = _connection.CreateModel();
 
-                 _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+                _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
 
-                 _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+                _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
 
-                 Console.WriteLine("--> Connected to MessageBus");
+                Console.WriteLine("--> Connected to MessageBus");
             }
             catch (Exception ex)
             {
@@ -47,12 +47,12 @@ namespace PlatformService.AsyncDataServices
         {
             var message = JsonSerializer.Serialize(platformPublishedDto);
 
-            if(_connection.IsOpen)
+            if (_connection.IsOpen)
             {
                 Console.WriteLine("--> RabbitMQ Connection Open, sending message...");
                 SendMessage(message);
             }
-            else 
+            else
             {
                 Console.WriteLine("--> RabbitMQ connection closed, not sending");
             }
@@ -73,7 +73,7 @@ namespace PlatformService.AsyncDataServices
         public void Dispose()
         {
             Console.WriteLine("MessageBus Disposed");
-            if(_channel.IsOpen)
+            if (_channel.IsOpen)
             {
                 _channel.Close();
                 _connection.Close();
